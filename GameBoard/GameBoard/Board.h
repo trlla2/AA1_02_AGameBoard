@@ -1,13 +1,19 @@
 #pragma once
+#include <iostream>
+#include <fstream>
+
+using namespace std;
 
 struct Board {
+	
+	Board();
 
 	int dynamicSizeX;
 	int dynamicSizeY;
 
-	char* board;
+	char** box;
 
-
+	
 	void initialieBoard();
 	void printBoard();
 	void destroyBoard();
