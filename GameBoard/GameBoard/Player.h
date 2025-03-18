@@ -9,7 +9,7 @@ struct Player {
 	int posX;
 	int posY;
 	
-	void setPosition();
+	void setPosition(int x, int y);
 	void addScore();
 	void movePlayer();
 

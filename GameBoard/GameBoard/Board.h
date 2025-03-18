@@ -15,7 +15,7 @@ struct Board {
 
 	
 	void initialieBoard();
-	void printBoard();
+	void printBoard() const;
 	void destroyBoard();
 
 };
