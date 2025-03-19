@@ -25,19 +25,45 @@ void Board:: initialieBoard() {
 
 	//give each box a value
 
+	vector<pair<int, int>> emptyBoxes; //Vector with all the empty Boxes
+
 	// fill array
 	for (int i = 0; i < dynamicSizeX; i++) {
 		for (int j = 0; j < dynamicSizeY; j++) {
 			// Verify if is wall
 			if (i == 0 || i == dynamicSizeX - 1 || j == 0 || j == dynamicSizeY - 1) {
-				box[i][j] = 'M';
+				box[i][j] = 'W';
 			}
 			else {
-
 				box[i][j] = '.';
+
+				emptyBoxes.push_back(make_pair(i, j)); // push empty positions to vector
 			}
 		}
 	}
+
+	if (!emptyBoxes.empty()) { // check if there is empty boxes
+
+		int maxSpikes =  emptyBoxes.size() * 0.1; // 10%  of spikes
+		int maxGems = emptyBoxes.size() * 0.25; // 25% of gems
+
+		int numSpikes = GenerateClampedRandom(0, maxSpikes); // generate num of Spikes
+		int numGems = GenerateClampedRandom(0, maxGems); // generate num of Gems
+
+		std::random_shuffle(emptyBoxes.begin(), emptyBoxes.end()); // shufle empty Boxes
+
+		for (int i = emptyBoxes.size() - 1; i > 0; i--) { // spawn spikes and gems on emptyBoxes
+			if (numSpikes > 0) {
+				numSpikes--;
+				box[emptyBoxes[i].first][emptyBoxes[i].second] = 'S'; // Spike
+				emptyBoxes.pop_back();
+			}
+		}
+	}
+
+
+
+
 }
 
 void Board::printBoard() const {
