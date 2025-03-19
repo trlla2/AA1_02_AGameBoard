@@ -5,9 +5,9 @@
 
 enum PlayerMovement{ EMPTY, UP, DOWN, LEFT, RIGHT};
 
-bool checkMovement(int playerX, int playerY, PlayerMovement& nextMove, Board& board);
+bool checkMovement(int& playerX, int& playerY, PlayerMovement& nextMove, Board& board);
 void movePlayer(Player* player, PlayerMovement& nextMove, Board* board);
-void gameOver();
+bool gameOver(Player& player, Board& board, bool* win);
 
 int main()
 {
@@ -17,56 +17,74 @@ int main()
 
     Player player;
     Board board;
+    PlayerMovement nextMove = EMPTY;
+    bool win = false;
 
     board.initialieBoard(&player);
 
     board.printBoard();
 
+    
+    
+
+    
+    const int FPS = 60;
+
+    //GAMELOOP
+
+    while (!gameOver(player ,board , &win))
+    {
+        //INPUT
+        if (GetAsyncKeyState(VK_UP))// arrow key up
+        {
+            nextMove = UP;
+        }
+        else if (GetAsyncKeyState(VK_DOWN))// arrow key down
+        {
+            nextMove = DOWN;
+        }
+        else if (GetAsyncKeyState(VK_LEFT))// arrow key down
+        {
+            nextMove = LEFT;
+        }
+        else if (GetAsyncKeyState(VK_RIGHT))// arrow key down
+        {
+            nextMove = RIGHT;
+        }
+
+        //UPDATE
+        
+        if (nextMove != EMPTY)
+        {   
+            if (checkMovement(player.posX, player.posY, nextMove, board)) { // check next Move
+                movePlayer(&player, nextMove, &board);
+            }
+            
+            system("CLS");
+        }
+        //RENDER
+        
+        if (nextMove != EMPTY)
+        {
+            nextMove = EMPTY;
+            board.printBoard();
+        }
+
+
+        // FRAME CONTROLS
+
+        Sleep(1000 / FPS);
+    }
+    system("CLS");
+
+    cout << win;
+
     board.destroyBoard();
-    //
-    ////DEBUG -------------- borrar
 
-    //bool userPressedUpKey = false;
-
-    //int frameCount = 0;
-    //const int FPS = 60;
-
-    ////GAMELOOP
-
-    //while (true)
-    //{
-    //    //INPUT
-    //    // ----------------- Debug borrar
-    //    if (GetAsyncKeyState(VK_UP))//pillar arrow key up
-    //    {
-    //        userPressedUpKey = true;
-    //    }
-
-    //    //UPDATE
-    //    // ----------------- Debug borrar
-    //    if (userPressedUpKey)
-    //    {
-    //        userPressedUpKey = false;
-    //        system("CLS");
-    //    }
-    //    if (frameCount >= 9 || userPressedUpKey) {
-    //        frameCount = 0;
-
-    //        userPressedUpKey = false;
-    //    }
-    //    //RENDER
-    //    // ----------------- Debug borrar
-
-    //    std::cout << frameCount++ << std::endl;
-
-    //    // FRAME CONTROLS
-
-    //    Sleep(1000 / FPS);
-    //}
 }
 
 
-bool checkMovement(int playerX, int playerY, PlayerMovement& nextMove, Board& board) {
+bool checkMovement(int& playerX, int& playerY, PlayerMovement& nextMove, Board& board) {
     switch (nextMove)
     {
     case UP:
@@ -108,6 +126,7 @@ void movePlayer(Player* player, PlayerMovement& nextMove, Board* board) { // ass
 
         // move player
         board->box[player->posX - 1][player->posY] = 'P'; // set player position on the board
+        board->box[player->posX][player->posY] = '.'; // set last position to '.'
         player->setPosition(player->posX - 1, player->posY);
         break;
     case DOWN:
@@ -126,6 +145,7 @@ void movePlayer(Player* player, PlayerMovement& nextMove, Board* board) { // ass
 
         // move player
         board->box[player->posX + 1][player->posY] = 'P'; // set player position on the board
+        board->box[player->posX][player->posY] = '.'; // set last position to '.'
         player->setPosition(player->posX + 1, player->posY);
         break;
     case LEFT:
@@ -144,6 +164,7 @@ void movePlayer(Player* player, PlayerMovement& nextMove, Board* board) { // ass
 
         // move player
         board->box[player->posX][player->posY - 1] = 'P'; // set player position on the board
+        board->box[player->posX][player->posY] = '.'; // set last position to '.'
         player->setPosition(player->posX, player->posY - 1);
         break;
     case RIGHT:
@@ -162,10 +183,25 @@ void movePlayer(Player* player, PlayerMovement& nextMove, Board* board) { // ass
 
         // move player
         board->box[player->posX ][player->posY + 1] = 'P'; // set player position on the board
+        board->box[player->posX][player->posY] = '.'; // set last position to '.'
         player->setPosition(player->posX, player->posY + 1);
         break;
     default:
         break;
     }
 
+}
+
+bool gameOver(Player& player, Board& board, bool* win) {
+    if (!player.isAlive) {
+        *win = true;
+        return true;
+    }
+    else if (board.numGems <= 0) {
+        *win = true;
+        return true;
+    }
+    else {
+        return false;
+    }
 }
