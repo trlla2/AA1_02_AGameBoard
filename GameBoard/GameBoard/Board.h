@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include "Random.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -17,8 +18,9 @@ struct Board {
 	char** box;
 
 	int numGems;
+	int numSpikes;
 	
-	void initialieBoard();
+	void initialieBoard(Player* player);
 	void printBoard() const;
 	void destroyBoard();
 

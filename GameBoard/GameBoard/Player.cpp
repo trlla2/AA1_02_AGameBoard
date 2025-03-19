@@ -4,6 +4,9 @@
 Player::Player() {
 	isAlive = true;
 	score = 0;
+
+	posX = 0;
+	posY = 0;
 }
 
 void Player::addScore() {
@@ -11,7 +14,7 @@ void Player::addScore() {
 }
 
 void Player::setPosition(int x, int y) {
-	int posX = x; 
-	int posY = y;
+	posX = x; 
+	posY = y;
 }
 

@@ -3,6 +3,8 @@
 
 struct Player {
 	
+	Player();
+
 	int score;
 	
 	// position

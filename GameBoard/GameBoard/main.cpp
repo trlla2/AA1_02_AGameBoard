@@ -13,46 +13,56 @@ int main()
 {
     // CONFIG
     srand(time(NULL)); // Generate seed for random
-    
-    //DEBUG -------------- borrar
 
-    bool userPressedUpKey = false;
 
-    int frameCount = 0;
-    const int FPS = 60;
+    Player player;
+    Board board;
 
-    //GAMELOOP
+    board.initialieBoard(&player);
 
-    while (true)
-    {
-        //INPUT
-        // ----------------- Debug borrar
-        if (GetAsyncKeyState(VK_UP))//pillar arrow key up
-        {
-            userPressedUpKey = true;
-        }
+    board.printBoard();
 
-        //UPDATE
-        // ----------------- Debug borrar
-        if (userPressedUpKey)
-        {
-            userPressedUpKey = false;
-            system("CLS");
-        }
-        if (frameCount >= 9 || userPressedUpKey) {
-            frameCount = 0;
+    board.destroyBoard();
+    //
+    ////DEBUG -------------- borrar
 
-            userPressedUpKey = false;
-        }
-        //RENDER
-        // ----------------- Debug borrar
+    //bool userPressedUpKey = false;
 
-        std::cout << frameCount++ << std::endl;
+    //int frameCount = 0;
+    //const int FPS = 60;
 
-        // FRAME CONTROLS
+    ////GAMELOOP
 
-        Sleep(1000 / FPS);
-    }
+    //while (true)
+    //{
+    //    //INPUT
+    //    // ----------------- Debug borrar
+    //    if (GetAsyncKeyState(VK_UP))//pillar arrow key up
+    //    {
+    //        userPressedUpKey = true;
+    //    }
+
+    //    //UPDATE
+    //    // ----------------- Debug borrar
+    //    if (userPressedUpKey)
+    //    {
+    //        userPressedUpKey = false;
+    //        system("CLS");
+    //    }
+    //    if (frameCount >= 9 || userPressedUpKey) {
+    //        frameCount = 0;
+
+    //        userPressedUpKey = false;
+    //    }
+    //    //RENDER
+    //    // ----------------- Debug borrar
+
+    //    std::cout << frameCount++ << std::endl;
+
+    //    // FRAME CONTROLS
+
+    //    Sleep(1000 / FPS);
+    //}
 }
 
 
