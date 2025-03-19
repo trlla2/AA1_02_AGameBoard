@@ -47,6 +47,7 @@ void Board:: initialieBoard(Player* player) {
 		int maxSpikes =  emptyBoxes.size() * 0.1; // 10%  of spikes
 		int maxGems = emptyBoxes.size() * 0.25; // 25% of gems
 		
+
 		if (maxSpikes > 0) {
 			numSpikes = GenerateClampedRandom(0, maxSpikes); // generate num of Spikes
 		}
@@ -63,16 +64,20 @@ void Board:: initialieBoard(Player* player) {
 			numGems = 1; // Forced to atlest have 1 gem
 		}
 		
+		int leftSpikes = numSpikes; // contains num of left spikes to print
+		int leftGems = numGems; // contains num of left gems to print
+
+
 		std::random_shuffle(emptyBoxes.begin(), emptyBoxes.end()); // shufle empty Boxes
 
 		for (int i = emptyBoxes.size() - 1; i >= 0; i--) { // spawn spikes and gems on emptyBoxes
-			if (numSpikes > 0) { //Spawn all spikes
-				numSpikes--;
+			if (leftSpikes > 0) { //Spawn all spikes
+				leftSpikes--;
 				box[emptyBoxes[i].first][emptyBoxes[i].second] = 'S'; // Spike
 				emptyBoxes.pop_back(); // delete that empty box from vector
 			}
-			else if (numGems > 0) { //Spawn all Gems
-				numGems--;
+			else if (leftGems > 0) { //Spawn all Gems
+				leftGems--;
 				box[emptyBoxes[i].first][emptyBoxes[i].second] = 'G'; // Gem
 				emptyBoxes.pop_back(); // delete that empty box from vector
 			}

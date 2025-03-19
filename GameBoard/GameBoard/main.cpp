@@ -77,7 +77,13 @@ int main()
     }
     system("CLS");
 
-    cout << win;
+    if (win) {
+        cout << "You win";
+    }
+    else {
+        cout << "You lose";
+    }
+    
 
     board.destroyBoard();
 
@@ -194,7 +200,7 @@ void movePlayer(Player* player, PlayerMovement& nextMove, Board* board) { // ass
 
 bool gameOver(Player& player, Board& board, bool* win) {
     if (!player.isAlive) {
-        *win = true;
+        *win = false;
         return true;
     }
     else if (board.numGems <= 0) {
